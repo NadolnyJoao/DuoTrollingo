@@ -1,4 +1,5 @@
 #include "../raylib/raylib.h"
+#include "include/panel.h"
 
 #define WINDOW_SIZE_FACTOR 75.0f
 
@@ -12,19 +13,20 @@ int main(void) {
     screen_width = GetScreenWidth();
     screen_height = GetScreenHeight();
 
+    Panel side_panel = create_panel(screen_width / 4.0f,   // width
+                                    screen_height - 20.0f, // height
+                                    (Vector2){20, 10},     // pos
+                                    GRAY,                  // color
+                                    RECTANGULAR_PANEL);    // type of panel
+
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
 
         BeginDrawing();
         {
-            ClearBackground(BLACK);
-
-            DrawRectangle((screen_width / 2) - 50,  // pos x
-                          (screen_height / 2) - 50, // pos y
-                          100,                      // width
-                          100,                      // height
-                          RED);                     // color
+            ClearBackground(LIGHTGRAY);
+            draw_panel(&side_panel);
         }
         EndDrawing();
     }
