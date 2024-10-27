@@ -22,6 +22,17 @@ Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelTyp
     return panel;
 }
 
+void update_panel(Panel *panel, Vector2 pos, Color color) {
+
+    panel->pos = pos;
+    panel->rect.x = pos.x;
+    panel->rect.y = pos.y;
+
+    panel->color = color;
+
+    return;
+}
+
 void draw_panel(Panel *panel) {
 
     if (panel->panel_type == ROUNDED_PANEL) {
@@ -33,6 +44,20 @@ void draw_panel(Panel *panel) {
 
     if (panel->panel_type == RECTANGULAR_PANEL) {
         DrawRectangleRec(panel->rect, panel->color);
+    }
+
+    if (panel->panel_type == OUTLINE_ROUNDED_PANEL) {
+        DrawRectangleRoundedLines(panel->rect,
+                                  0.2, // roundness
+                                  10,  // segments
+                                  5,   // line thickness
+                                  panel->color);
+    }
+
+    if (panel->panel_type == OUTLINE_RECTANGULAR_PANEL) {
+        DrawRectangleLinesEx(panel->rect,
+                             5, // line thickness
+                             panel->color);
     }
 
     return;

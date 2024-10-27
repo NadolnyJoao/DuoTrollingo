@@ -19,6 +19,8 @@ typedef struct Panel {
 
 Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelType type);
 
+void update_panel(Panel *panel, Vector2 pos, Color color);
+
 void draw_panel(Panel *panel);
 
 #endif // !PANEL_H
