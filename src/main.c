@@ -1,5 +1,6 @@
-#include "../raylib/raylib.h"
+// #include "../raylib/raylib.h"
 #include "include/panel.h"
+#include <raylib.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -38,7 +39,8 @@ int main(void) {
         .height = 45,
     };
 
-    Sound snd_button = LoadSound("/src/assets/sound/snd_button.mp3");
+    Sound snd_button = LoadSound("src/assets/sound/snd_button.wav");
+    Sound test_snd = LoadSound("snd_button.wav");
     bool button_act = false;
     Image button_img = LoadImage("src/assets/image/3lines.png");
     ImageResize(&button_img, button.width, button.height);
@@ -55,6 +57,7 @@ int main(void) {
         if (IsKeyDown(KEY_SPACE) && panel_open == false) {
             panel_pos.x = -25;
             panel_open = true;
+            PlaySound(snd_button);
             PlaySound(snd_button);
         }
 
@@ -80,6 +83,7 @@ int main(void) {
             draw_panel(&side_panel);
             DrawRectangleRec(button, BLANK);
             DrawTexture(button_texture, button.x, button.y, WHITE);
+            PlaySound(test_snd);
         }
         EndDrawing();
     }
