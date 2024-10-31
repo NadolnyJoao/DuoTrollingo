@@ -1,7 +1,6 @@
 #ifndef ACTIONS_H
 #define ACTIONS_H
 
-#include "../raylib/raylib.h"
 #include "include/button.h"
 #include "panel.h"
 

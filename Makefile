@@ -12,6 +12,11 @@ main: ${BINS} src/main.c
 	${CC} $^ ${RAY_STATIC} ${FLAGS} -o $@
 	./main
 
+
+clear:
+	rm obj/*.o
+	rm main
+
 ${OBJ}panel.o: src/include/panel.c
 	${CC} ${FLAGS} -c $^ -o $@
 

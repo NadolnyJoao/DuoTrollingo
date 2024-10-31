@@ -2,8 +2,6 @@
 #include "actions.h"
 #include "include/button.h"
 #include "include/panel.h"
-#include <stdbool.h>
-#include <stddef.h>
 
 #define WINDOW_SIZE_FACTOR 75.0f
 
