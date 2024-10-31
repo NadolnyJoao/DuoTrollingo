@@ -4,7 +4,6 @@
 #include "../raylib/raylib.h"
 #include "include/button.h"
 #include "panel.h"
-#include <panel.h>
 
 void toggle_side_pannel(Button *button);
 
