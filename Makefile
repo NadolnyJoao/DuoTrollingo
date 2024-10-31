@@ -1,17 +1,15 @@
 CC = gcc
 
-RAY_STATIC = -L./raylib/ -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-RAY_DLL = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
-FLAGS = -Wall -Wextra 
+RAY_STATIC = -Wl,-Bstatic -L./raylib/ -lraylib -lpthread -ldl -lrt -Wl,-Bdynamic -lGL -lX11 -lm
+RAY_DLL = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 
+FLAGS = -Wall -Wextra -std=c17 -pedantic -O3
 
 OBJ = obj/
 
 BINS = ${OBJ}panel.o ${OBJ}button.o ${OBJ}actions.o
 
 main: ${BINS} src/main.c
-	${CC} $^ ${RAY_STATIC} ${FLAGS} -o $@
-	./main
-
+	${CC} $^ ${RAY_DLL} ${FLAGS} -o $@
 
 clear:
 	rm obj/*.o
