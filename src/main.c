@@ -1,8 +1,9 @@
-// #include "../raylib/raylib.h"
+#include "../raylib/raylib.h"
+#include "actions.h"
+#include "include/button.h"
 #include "include/panel.h"
-#include <raylib.h>
 #include <stdbool.h>
-#include <stdio.h>
+#include <stddef.h>
 
 #define WINDOW_SIZE_FACTOR 75.0f
 
@@ -14,38 +15,30 @@ Vector2 mouse_pos = {0};
 int main(void) {
 
     InitWindow(16 * WINDOW_SIZE_FACTOR, 9 * WINDOW_SIZE_FACTOR, "DuoTrollingo");
+    /*SetExitKey(KEY_NULL);*/
     InitAudioDevice();
 
     screen_width = GetScreenWidth();
     screen_height = GetScreenHeight();
 
-    Vector2 panel_pos = {-250, 10};
+    Panel side_panel = create_panel(300,                  // width  ( 1/4 of the screen = 300)
+                                    655,                  // height (screen height - 20 = 655)
+                                    (Vector2){-250, 10},  // pos
+                                    GetColor(0x3b3b3bFF), // color
+                                    ROUNDED_PANEL);       // type of panel
+    Vector2 expand_panel_button = {45, 45};
 
-    // -25 -> open
-    // -250 -> closed
-
-    bool panel_open = false;
-
-    Panel side_panel = create_panel(300,            // width  ( 1/4 of the screen = 300)
-                                    655,            // height (screen height - 20 = 655)
-                                    panel_pos,      // pos
-                                    GRAY,           // color
-                                    ROUNDED_PANEL); // type of panel
-
-    Rectangle button = {
-        .x = (side_panel.pos.x / 4),
-        .y = 40,
-        .width = 45,
-        .height = 45,
-    };
-
-    Sound snd_button = LoadSound("src/assets/sound/snd_button.wav");
-    Sound test_snd = LoadSound("snd_button.wav");
-    bool button_act = false;
     Image button_img = LoadImage("src/assets/image/3lines.png");
-    ImageResize(&button_img, button.width, button.height);
+    ImageResize(&button_img, expand_panel_button.x, expand_panel_button.y);
     Texture2D button_texture = LoadTextureFromImage(button_img);
     UnloadImage(button_img);
+
+    Button test_button = create_button(expand_panel_button.x, // width
+                                       expand_panel_button.y, // height
+                                       (Vector2){0, 0},       // pos
+                                       &side_panel,           // parent
+                                       button_texture,        // texture
+                                       toggle_side_pannel);   // action
 
     SetTargetFPS(60);
 
@@ -54,36 +47,21 @@ int main(void) {
         delta_time = GetFrameTime();
         mouse_pos = GetMousePosition();
 
-        if (IsKeyDown(KEY_SPACE) && panel_open == false) {
-            panel_pos.x = -25;
-            panel_open = true;
-            PlaySound(snd_button);
-            PlaySound(snd_button);
-        }
+        update_panel(&side_panel,
+                     side_panel.pos,
+                     side_panel.color);
 
-        if (IsKeyDown(KEY_W) && panel_open == true) {
-            panel_pos.x = -250;
-            panel_open = false;
-        }
-
-        update_panel(&side_panel, panel_pos, GRAY);
-
-        button.x = (side_panel.pos.x + side_panel.rect.width) - 60;
-
-        Vector2 buttton_pos = {button.x, button.y};
-
-        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && CheckCollisionPointRec(mouse_pos, button)) {
-            printf("oi\n");
-            PlaySound(snd_button);
-        }
+        update_button(&test_button,
+                      (Vector2){
+                          (side_panel.pos.x + side_panel.rect.width) - 60, // x position relative to parent
+                          40});                                            // y pos
 
         BeginDrawing();
         {
-            ClearBackground(LIGHTGRAY);
+            ClearBackground(GetColor(0x181818FF));
             draw_panel(&side_panel);
-            DrawRectangleRec(button, BLANK);
-            DrawTexture(button_texture, button.x, button.y, WHITE);
-            PlaySound(test_snd);
+
+            draw_button(&test_button);
         }
         EndDrawing();
     }

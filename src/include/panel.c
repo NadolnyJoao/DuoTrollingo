@@ -17,6 +17,8 @@ Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelTyp
 
     panel.color = color;
 
+    panel.panel_open = false;
+
     panel.panel_type = type;
 
     return panel;
@@ -52,6 +54,11 @@ void draw_panel(Panel *panel) {
                                   10,  // segments
                                   5,   // line thickness
                                   panel->color);
+
+        DrawRectangleRounded(panel->rect,
+                             0.2,
+                             10,
+                             panel->color);
     }
 
     if (panel->panel_type == OUTLINE_RECTANGULAR_PANEL) {

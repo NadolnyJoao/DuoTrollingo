@@ -14,6 +14,8 @@ typedef struct Panel {
         Rectangle rect;
         Vector2 pos;
         Color color;
+        Color outline_color;
+        bool panel_open;
         PanelType panel_type;
 } Panel;
 
