@@ -1,7 +1,8 @@
 #include "button.h"
-#include "panel.h"
+#include "../globals.h"
+#include <stddef.h>
 
-Button create_button(float width, float height, Vector2 pos, Panel *parent, Texture2D texture, Action on_click) {
+Button create_button(float width, float height, Vector2 pos, Action on_click) {
     Button button = {0};
 
     button.bounds = (Rectangle){
@@ -13,9 +14,9 @@ Button create_button(float width, float height, Vector2 pos, Panel *parent, Text
 
     button.pos = pos;
 
-    button.parent = parent;
+    /*button.parent = parent;*/
 
-    button.texture = texture;
+    /*button.texture = texture;*/
 
     button.on_click = on_click;
 
@@ -47,4 +48,16 @@ void draw_button(Button *button) {
 
     DrawRectangleRec(button->bounds, BLANK);
     DrawTextureV(button->texture, button->pos, WHITE);
+
+    if (button->text != NULL) {
+        int text_width = MeasureText(button->text, button->font_size);
+        int text_height = button->font_size;
+
+        float text_x = button->parent->rect.x + (button->parent->rect.width - text_width) / 2.0f;
+
+        /* dont even ask */
+        float text_y = button->parent->rect.y + button->parent->rect.height / 2 - text_height / 2.0f;
+
+        DrawTextEx(iosevka, button->text, (Vector2){text_x, text_y}, button->font_size, 0, WHITE);
+    }
 }

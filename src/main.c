@@ -1,9 +1,12 @@
 #include "../raylib/raylib.h"
 #include "actions.h"
+#include "globals.h"
 #include "include/button.h"
 #include "include/panel.h"
 
 #define WINDOW_SIZE_FACTOR 75.0f
+
+const Texture2D EMPTY_TEXTURE = {0};
 
 float screen_width = 0;
 float screen_height = 0;
@@ -11,6 +14,7 @@ Vector2 mouse_pos = {0};
 
 Color background_color = {0};
 Color accent_color = {0};
+Color accent_color2 = {0};
 
 int main(void) {
 
@@ -18,11 +22,14 @@ int main(void) {
     /*SetExitKey(KEY_NULL);*/
     InitAudioDevice();
 
+    iosevka = LoadFontEx("src/assets/Iosevka-Light.ttf", 50, 0, 250); // magic numbers
+
     screen_width = GetScreenWidth();
     screen_height = GetScreenHeight();
 
     background_color = GetColor(0x181818FF);
     accent_color = GetColor(0x3b3b3bFF);
+    accent_color2 = GetColor(0x323232FF);
 
     /* --------------------------------------------------------------------------------------------- */
     // SIDE PANEL DECLARATION
@@ -44,45 +51,97 @@ int main(void) {
     Button expand_panel_button = create_button(expand_panel_button_size.x, // width
                                                expand_panel_button_size.y, // height
                                                (Vector2){0, 0},            // pos (will be set relative to parent)
-                                               &side_panel,                // parent
-                                               button_texture,             // texture
                                                toggle_side_pannel);        // actions
+    expand_panel_button.parent = &side_panel;
+    expand_panel_button.texture = button_texture;
+
+    /* --------------------------------------------------------------------------------------------- */
+    // menu panel
+
+    Panel menu_panel = create_panel(300,
+                                    150,
+                                    (Vector2){(screen_width / 2.0f) - (300.0f / 2.0f), screen_height / 2},
+                                    accent_color,
+                                    ROUNDED_PANEL);
+
+    Button menu_button = create_button(300,
+                                       150,
+                                       menu_panel.pos,
+                                       goto_screen);
+
+    menu_button.parent = &menu_panel;
+    menu_button.texture = EMPTY_TEXTURE;
+    menu_button.screen_id = LESSON;
+    menu_button.text = " Start";
+    menu_button.font_size = 50;
 
     /* --------------------------------------------------------------------------------------------- */
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
-
         mouse_pos = GetMousePosition();
 
-        /* ------------------------------------------------------------------------------------------------ */
-        // UPDATE FUNCTION CALLS
+        switch (current_state) {
+        case MENU: {
+            /* --------------------------------------------------------------------------------------------- */
+            // update calls
+            update_panel(&menu_panel, menu_panel.pos, menu_panel.color);
 
-        update_panel(&side_panel,
-                     side_panel.pos,
-                     side_panel.color);
-
-        update_button(&expand_panel_button,
-                      (Vector2){
-                          (side_panel.pos.x + side_panel.rect.width) - 60, // x position relative to parent
-                          40});                                            // y pos
-
-        /* ------------------------------------------------------------------------------------------------- */
-
-        BeginDrawing();
-        {
-            ClearBackground(background_color);
+            update_button(&menu_button, menu_panel.pos);
 
             /* --------------------------------------------------------------------------------------------- */
             // DRAW CALLS
 
-            draw_panel(&side_panel);
-            draw_button(&expand_panel_button);
+            BeginDrawing();
+            {
+                ClearBackground(background_color);
+                draw_panel(&menu_panel);
+                draw_button(&menu_button);
+            }
+            EndDrawing();
         }
-        EndDrawing();
 
-        /* ------------------------------------------------------------------------------------------------ */
+        break;
+
+        /* --------------------------------------------------------------------------------------------- */
+        case LESSON_MENU: {
+            BeginDrawing();
+            {
+                ClearBackground(background_color);
+                DrawText("WORK IN PROGRESS", screen_width / 4, screen_height / 2, 40, RED);
+            }
+            EndDrawing();
+        }
+
+        break;
+
+            /* --------------------------------------------------------------------------------------------- */
+
+        case LESSON: {
+
+            /* --------------------------------------------------------------------------------------------- */
+            // UPDATE CALLS
+            update_panel(&side_panel, side_panel.pos, side_panel.color);
+
+            update_button(&expand_panel_button,
+                          (Vector2){
+                              (side_panel.pos.x + side_panel.rect.width) - 60, // x position relative to parent
+                              40});                                            // y pos
+
+            /* --------------------------------------------------------------------------------------------- */
+            // DRAW CALLS
+            BeginDrawing();
+            {
+                ClearBackground(background_color);
+                draw_panel(&side_panel);
+                draw_button(&expand_panel_button);
+            }
+            EndDrawing();
+        }
+
+        break;
+        }
     }
     UnloadTexture(button_texture);
     CloseWindow();

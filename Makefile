@@ -6,10 +6,11 @@ FLAGS = -Wall -Wextra -std=c17 -pedantic -O3
 
 OBJ = obj/
 
-BINS = ${OBJ}panel.o ${OBJ}button.o ${OBJ}actions.o
+BINS = ${OBJ}panel.o ${OBJ}button.o ${OBJ}actions.o ${OBJ}globals.o
 
 main: ${BINS} src/main.c
 	${CC} $^ ${RAY_DLL} ${FLAGS} -o $@
+	./main
 
 clear:
 	rm obj/*.o
@@ -22,4 +23,7 @@ ${OBJ}button.o: src/include/button.c
 	${CC} ${FLAGS} -c $^ -o $@
 
 ${OBJ}actions.o: src/actions.c
+	${CC} ${FLAGS} -c $^ -o $@
+
+${OBJ}globals.o: src/globals.c
 	${CC} ${FLAGS} -c $^ -o $@

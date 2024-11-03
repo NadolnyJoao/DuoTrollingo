@@ -17,13 +17,14 @@ typedef struct Button {
         bool at_pos1;
         Panel *parent;
         Action on_click;
+        int screen_id;
+        char *text;
+        int font_size;
 
 } Button;
 
 Button create_button(float width, float height,
                      Vector2 pos,
-                     Panel *parent,
-                     Texture2D texture,
                      Action on_click);
 
 void update_button(Button *button, Vector2 pos);
