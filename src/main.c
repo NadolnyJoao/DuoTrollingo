@@ -17,9 +17,12 @@ int main(void) {
     screen_width = GetScreenWidth();
     screen_height = GetScreenHeight();
 
-    background_color = GetColor(0x181818FF);
-    accent_color = GetColor(0x3b3b3bFF);
-    accent_color2 = GetColor(0x323232FF);
+    /*background_color = GetColor(0x181818FF);*/
+    /*accent_color = GetColor(0x3b3b3bFF);*/
+    /*accent_color2 = GetColor(0x323232FF);*/
+    /*Color accent_color3 = GetColor(0x34363aFF);*/
+
+    setup_theme();
 
     /* --------------------------------------------------------------------------------------------- */
     // SIDE PANEL DECLARATION
@@ -27,7 +30,7 @@ int main(void) {
     Panel side_panel = create_panel(300,                 // width  ( 1/4 of the screen = 300)
                                     655,                 // height (screen height - 20 = 655)
                                     (Vector2){-250, 10}, // starting pos
-                                    accent_color,        // color
+                                    theme.accent_color,  // color
                                     ROUNDED_PANEL);      // type of panel
 
     /* --------------------------------------------------------------------------------------------- */
@@ -51,7 +54,7 @@ int main(void) {
     Panel menu_panel = create_panel(300,
                                     150,
                                     (Vector2){(screen_width / 2.0f) - (300.0f / 2.0f), screen_height / 2},
-                                    accent_color,
+                                    theme.accent_color,
                                     ROUNDED_PANEL);
 
     Button menu_button = create_button(menu_panel.rect.width,
@@ -76,13 +79,13 @@ int main(void) {
 
     Panel lessons_panel = create_panel(screen_width - 25.0f, screen_height - 125.0f,
                                        (Vector2){15, 100},
-                                       accent_color2,
+                                       theme.accent_color3,
                                        ROUNDED_PANEL);
 
     Panel lessons_text_panel = create_panel(300,
                                             80,
                                             (Vector2){(screen_width / 2) - 150, 5},
-                                            accent_color,
+                                            theme.accent_color2,
                                             ROUNDED_PANEL);
 
     lessons_text_panel.font = iosevka;
@@ -91,7 +94,7 @@ int main(void) {
 
     /* --------------------------------------------------------------------------------------------- */
 
-    Panel first_lesson = create_panel(110, 100, (Vector2){60, 120}, background_color, ROUNDED_PANEL);
+    Panel first_lesson = create_panel(110, 100, (Vector2){60, 120}, theme.background_color, ROUNDED_PANEL);
     Button first_lesson_button = create_button(110, 100, (Vector2){60, 120}, goto_screen);
     first_lesson_button.screen_id = LESSON;
     first_lesson_button.font_size = 25;
@@ -119,7 +122,7 @@ int main(void) {
 
             BeginDrawing();
             {
-                ClearBackground(background_color);
+                ClearBackground(theme.background_color);
                 draw_panel(&menu_panel);
                 draw_button(&menu_button);
 
@@ -142,7 +145,7 @@ int main(void) {
 
             BeginDrawing();
             {
-                ClearBackground(background_color);
+                ClearBackground(theme.background_color);
 
                 draw_panel(&lessons_panel);
                 draw_panel(&lessons_text_panel);
@@ -172,7 +175,7 @@ int main(void) {
             // DRAW CALLS
             BeginDrawing();
             {
-                ClearBackground(background_color);
+                ClearBackground(theme.background_color);
                 draw_panel(&side_panel);
                 draw_button(&expand_panel_button);
             }

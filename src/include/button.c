@@ -59,6 +59,6 @@ void draw_button(Button *button) {
         /* dont even ask */
         float text_y = button->bounds.y + button->bounds.height / 2 - text_size.y / 2.0f;
 
-        DrawTextEx(button->font, button->text, (Vector2){text_x, text_y}, button->font_size, 1, WHITE);
+        DrawTextEx(button->font, button->text, (Vector2){text_x, text_y}, button->font_size, 1, theme.text_color);
     }
 }

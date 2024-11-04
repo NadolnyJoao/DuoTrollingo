@@ -1,4 +1,5 @@
 #include "panel.h"
+#include "../globals.h"
 #include <stddef.h>
 
 Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelType type) {
@@ -78,7 +79,7 @@ void draw_panel(Panel *panel) {
         /* dont even ask */
         float text_y = panel->rect.y + panel->rect.height / 2 - text_size.y / 2.0f;
 
-        DrawTextEx(panel->font, panel->text, (Vector2){text_x, text_y}, panel->font_size, 1, WHITE);
+        DrawTextEx(panel->font, panel->text, (Vector2){text_x, text_y}, panel->font_size, 1, theme.text_color);
     }
 
     return;
