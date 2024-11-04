@@ -1,4 +1,5 @@
 #include "panel.h"
+#include <stddef.h>
 
 Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelType type) {
 
@@ -65,6 +66,19 @@ void draw_panel(Panel *panel) {
         DrawRectangleLinesEx(panel->rect,
                              5, // line thickness
                              panel->color);
+    }
+
+    if (panel->text != NULL) {
+        /*int text_width = MeasureText(button->text, button->font_size);*/
+        /*int text_height = button->font_size;*/
+        Vector2 text_size = MeasureTextEx(panel->font, panel->text, panel->font_size, 1);
+
+        float text_x = panel->rect.x + (panel->rect.width / 2.0f) - (text_size.x / 2.0f);
+
+        /* dont even ask */
+        float text_y = panel->rect.y + panel->rect.height / 2 - text_size.y / 2.0f;
+
+        DrawTextEx(panel->font, panel->text, (Vector2){text_x, text_y}, panel->font_size, 1, WHITE);
     }
 
     return;

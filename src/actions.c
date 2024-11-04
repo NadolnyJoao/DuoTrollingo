@@ -1,4 +1,7 @@
 #include "actions.h"
+#include "include/button.h"
+
+/* --------------------------------------------------------------------------------------------- */
 
 void toggle_side_pannel(Button *button) {
 
@@ -13,6 +16,8 @@ void toggle_side_pannel(Button *button) {
 
     button->parent->panel_open = !button->parent->panel_open;
 }
+
+/* --------------------------------------------------------------------------------------------- */
 
 void goto_screen(Button *button) {
     current_state = button->screen_id;

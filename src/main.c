@@ -72,11 +72,37 @@ int main(void) {
     UnloadImage(menu_img);
 
     /* --------------------------------------------------------------------------------------------- */
+    // LESSONS MENU
+
+    Panel lessons_panel = create_panel(screen_width - 25.0f, screen_height - 125.0f,
+                                       (Vector2){15, 100},
+                                       accent_color2,
+                                       ROUNDED_PANEL);
+
+    Panel lessons_text_panel = create_panel(300,
+                                            80,
+                                            (Vector2){(screen_width / 2) - 150, 5},
+                                            accent_color,
+                                            ROUNDED_PANEL);
+
+    lessons_text_panel.font = iosevka;
+    lessons_text_panel.font_size = 50;
+    lessons_text_panel.text = "Lessons";
+
+    /* --------------------------------------------------------------------------------------------- */
+
+    Panel first_lesson = create_panel(110, 100, (Vector2){60, 120}, background_color, ROUNDED_PANEL);
+    Button first_lesson_button = create_button(110, 100, (Vector2){60, 120}, goto_screen);
+    first_lesson_button.screen_id = LESSON;
+    first_lesson_button.font_size = 25;
+    first_lesson_button.font = iosevka;
+    first_lesson_button.text = "First Lesson";
+
+    /* --------------------------------------------------------------------------------------------- */
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
-
         // STUFF THAT HAS TO BE UPDATED EVERYWHERE
         mouse_pos = GetMousePosition();
 
@@ -111,10 +137,18 @@ int main(void) {
 
         /* --------------------------------------------------------------------------------------------- */
         case LESSON_MENU: {
+
+            update_button(&first_lesson_button, first_lesson_button.pos);
+
             BeginDrawing();
             {
                 ClearBackground(background_color);
-                DrawText("WORK IN PROGRESS", screen_width / 4, screen_height / 2, 40, RED);
+
+                draw_panel(&lessons_panel);
+                draw_panel(&lessons_text_panel);
+
+                draw_panel(&first_lesson);
+                draw_button(&first_lesson_button);
             }
             EndDrawing();
         }

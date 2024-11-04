@@ -1,7 +1,6 @@
 #include "button.h"
 #include "../globals.h"
 #include <stddef.h>
-#include <stdio.h>
 
 Button create_button(float width, float height, Vector2 pos, Action on_click) {
     Button button = {0};
@@ -17,7 +16,7 @@ Button create_button(float width, float height, Vector2 pos, Action on_click) {
 
     /*button.parent = parent;*/
 
-    /*button.texture = texture;*/
+    button.texture = EMPTY_TEXTURE;
 
     button.on_click = on_click;
 
@@ -55,10 +54,10 @@ void draw_button(Button *button) {
         /*int text_height = button->font_size;*/
         Vector2 text_size = MeasureTextEx(button->font, button->text, button->font_size, 1);
 
-        float text_x = button->parent->rect.x + (button->parent->rect.width / 2.0f) - (text_size.x / 2.0f);
+        float text_x = button->bounds.x + (button->bounds.width / 2.0f) - (text_size.x / 2.0f);
 
         /* dont even ask */
-        float text_y = button->parent->rect.y + button->parent->rect.height / 2 - text_size.y / 2.0f;
+        float text_y = button->bounds.y + button->bounds.height / 2 - text_size.y / 2.0f;
 
         DrawTextEx(button->font, button->text, (Vector2){text_x, text_y}, button->font_size, 1, WHITE);
     }

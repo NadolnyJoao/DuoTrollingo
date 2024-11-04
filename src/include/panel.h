@@ -17,6 +17,9 @@ typedef struct Panel {
         Color outline_color;
         bool panel_open;
         PanelType panel_type;
+        Font font;
+        int font_size;
+        char *text;
 } Panel;
 
 Panel create_panel(float width, float heigth, Vector2 pos, Color color, PanelType type);

@@ -22,6 +22,12 @@ typedef enum {
 
 extern CurrentState current_state;
 
+typedef enum {
+    TUTORIAL,
+} LessonNumber;
+
+extern LessonNumber lesson_number;
+
 extern Font iosevka;
 
 #endif // GLOBALS_H
