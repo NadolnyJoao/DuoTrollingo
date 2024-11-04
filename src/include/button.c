@@ -53,13 +53,13 @@ void draw_button(Button *button) {
     if (button->text != NULL) {
         /*int text_width = MeasureText(button->text, button->font_size);*/
         /*int text_height = button->font_size;*/
-        Vector2 text_size = MeasureTextEx(iosevka, button->text, button->font_size, 1);
+        Vector2 text_size = MeasureTextEx(button->font, button->text, button->font_size, 1);
 
         float text_x = button->parent->rect.x + (button->parent->rect.width / 2.0f) - (text_size.x / 2.0f);
 
         /* dont even ask */
         float text_y = button->parent->rect.y + button->parent->rect.height / 2 - text_size.y / 2.0f;
 
-        DrawTextEx(iosevka, button->text, (Vector2){text_x, text_y}, button->font_size, 1, WHITE);
+        DrawTextEx(button->font, button->text, (Vector2){text_x, text_y}, button->font_size, 1, WHITE);
     }
 }

@@ -62,6 +62,7 @@ int main(void) {
     menu_button.parent = &menu_panel;
     menu_button.texture = EMPTY_TEXTURE;
     menu_button.screen_id = LESSON_MENU;
+    menu_button.font = iosevka;
     menu_button.font_size = 45;
     menu_button.text = "Start Learning";
 

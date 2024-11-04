@@ -20,6 +20,7 @@ typedef struct Button {
         int screen_id;
         char *text;
         int font_size;
+        Font font;
 
 } Button;
 
