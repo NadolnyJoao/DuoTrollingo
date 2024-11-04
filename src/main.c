@@ -6,16 +6,6 @@
 
 #define WINDOW_SIZE_FACTOR 75.0f
 
-const Texture2D EMPTY_TEXTURE = {0};
-
-float screen_width = 0;
-float screen_height = 0;
-Vector2 mouse_pos = {0};
-
-Color background_color = {0};
-Color accent_color = {0};
-Color accent_color2 = {0};
-
 int main(void) {
 
     InitWindow(16 * WINDOW_SIZE_FACTOR, 9 * WINDOW_SIZE_FACTOR, "DuoTrollingo");
@@ -64,22 +54,29 @@ int main(void) {
                                     accent_color,
                                     ROUNDED_PANEL);
 
-    Button menu_button = create_button(300,
-                                       150,
+    Button menu_button = create_button(menu_panel.rect.width,
+                                       menu_panel.rect.height,
                                        menu_panel.pos,
                                        goto_screen);
 
     menu_button.parent = &menu_panel;
     menu_button.texture = EMPTY_TEXTURE;
-    menu_button.screen_id = LESSON;
-    menu_button.text = " Start";
-    menu_button.font_size = 50;
+    menu_button.screen_id = LESSON_MENU;
+    menu_button.font_size = 45;
+    menu_button.text = "Start Learning";
+
+    Image menu_img = LoadImage("src/assets/image/placeholder.png");
+    ImageResize(&menu_img, menu_panel.rect.width, menu_panel.rect.width);
+    Texture2D menu_texture = LoadTextureFromImage(menu_img);
+    UnloadImage(menu_img);
 
     /* --------------------------------------------------------------------------------------------- */
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
+
+        // STUFF THAT HAS TO BE UPDATED EVERYWHERE
         mouse_pos = GetMousePosition();
 
         switch (current_state) {
@@ -98,6 +95,13 @@ int main(void) {
                 ClearBackground(background_color);
                 draw_panel(&menu_panel);
                 draw_button(&menu_button);
+
+                // menu logo
+
+                DrawTexture(menu_texture,
+                            screen_width / 2.0f - menu_texture.width / 2.0f,
+                            15,
+                            WHITE);
             }
             EndDrawing();
         }

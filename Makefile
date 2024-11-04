@@ -1,3 +1,4 @@
+.DEFAULT_GOAL := run
 CC = gcc
 
 RAY_STATIC = -Wl,-Bstatic -L./raylib/ -lraylib -lpthread -ldl -lrt -Wl,-Bdynamic -lGL -lX11 -lm
@@ -8,13 +9,15 @@ OBJ = obj/
 
 BINS = ${OBJ}panel.o ${OBJ}button.o ${OBJ}actions.o ${OBJ}globals.o
 
-main: ${BINS} src/main.c
-	${CC} $^ ${RAY_DLL} ${FLAGS} -o $@
-	./main
+all: ${BINS} src/main.c
+	${CC} $^ ${RAY_DLL} ${FLAGS} -o main
 
 clear:
 	rm obj/*.o
 	rm main
+
+run: all
+	./main
 
 ${OBJ}panel.o: src/include/panel.c
 	${CC} ${FLAGS} -c $^ -o $@
